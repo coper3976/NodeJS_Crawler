@@ -1,30 +1,31 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-const getHTML = async (keyword) => {
+
+const url = async () => {
     try {
-        return await axios.get("https://www.inflearn.com/courses?s=" + encodeURI(keyword))
+        return await axios.get("https://www.inflearn.com/courses?s=", {
+            headers : {
+                'user-agent' : 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
+                'Accept-Charset': 'utf-8'      
+            }
+        });
     } catch (err) {
         console.log(err);
     }
 }
 
-const parsing = async (keyword) => {
-    const html = await getHTML (keyword);
+const parsing = async () => {
+    const html = await url();
     const $ = cheerio.load(html.data);
-    const $courseList = $(".course_card_item");
+    const div = $(".course_card_item");
 
-    let courses = [];
-    $courseList.each((idx, node) => {
+    div.each((idx, node) => {
         const title = $(node).find(".course_title").text();
-        courses.push({
-            title : $(node).find(".course_title:eq(0)").text(),
-            price : $(node).find(".price").text()
-            
-        })
+        console.log(title);
     });
-
-    console.log(courses);
 }
 
-parsing('자바스크립트');
+parsing();
+
+
