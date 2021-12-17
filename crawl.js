@@ -23,10 +23,11 @@ const parsing = async () => {
     const div = $('.item_cont');
 
     div.each((idx, divs) => {
-        const title = $(divs).find('.item_name').text().trim();
+        const brand = $(divs).find('.item_brand').text().trim();
+        const productID = $(divs).find('.item_name').text().trim();
         const price = $(divs).find('.item_price').text().trim();
-        
-        console.log(title, price);
+
+        console.log(brand, "//", productID, "//", price);
     });
 }
 
